@@ -1,1 +1,57 @@
+# Xiaomi Mi TV Stick, Android TV / Android 9 (SDK 28), 1 GB RAM.
+# Daftar ini disusun dari output `pm list packages -s` milik perangkat sendiri.
+#
+# STATUS: DRAFT, BELUM DITES di perangkat. Nyalakan per batch, reboot, cek Home, Wi-Fi, Chromecast.
+# Semuanya DISABLE, bukan uninstall. Baris yang diawali # tidak dijalankan.
+#
+# Apply (per paket):  adb shell pm disable-user --user 0 <paket>
+# Undo (per paket):   adb shell pm enable <paket>
+# Atau pakai script:  TV_HOST=<ip stick> tools/disable.sh debloat.txt
+#
+# Dibiarkan aktif sengaja: Google Assistant (katniss), Chromecast (apps.mediashell),
+# remote HP (tv.remote.service), YouTube (youtube.tv, tvmusic), Netflix (netflix.ninja),
+# launcher stock (tvlauncher + tvrecommendations), com.android.providers.tv,
+# com.xiaomi.android.tvsetup.partnercustomizer (tombol shortcut remote), mitv.service,
+# com.mitv.milinkservice (Mi Link), com.mitv.videoplayer (putar USB), com.droidlogic* (sistem Amlogic),
+# com.android.tv.settings, GMS/GSF/Play Store/WebView.
 
+# Telemetry dan atribusi
+com.miui.tv.analytics                   # analytics Mi
+tv.alphonso.alphonso_eula               # Alphonso, pelacak tontonan (ACR) / EULA-nya
+com.google.android.feedback
+com.google.android.partnersetup         # ping atribusi Google RLZ
+com.google.android.tv.bugreportsender
+
+# Promo, iklan dan auto-install
+com.mitv.tvhome.michannel               # baris konten Mi
+com.xm.webcontent                       # promo web Xiaomi
+android.autoinstalls.config.xioami.mibox3   # auto-install app partner via Play (sic, "xioami")
+
+# PatchWall (launcher/konten Xiaomi). CEK HOME DULU sebelum dijalankan:
+#   adb shell cmd package resolve-activity --brief -c android.intent.category.HOME -a android.intent.action.MAIN
+# Kalau hasilnya com.mitv.tvhome.atv, pasang launcher pengganti dulu, jangan jalankan baris ini.
+com.mitv.tvhome.atv                     # PatchWall
+
+# Wallpaper dan screensaver gambar
+com.android.wallpaperbackup             # backup wallpaper
+com.google.android.backdrop             # Ambient mode / gambar latar Google
+
+# Preload, off by choice
+com.amazon.amazonvideo.livingroom       # Prime Video
+com.google.android.videos               # Google Play Movies & TV
+com.google.android.play.games
+com.android.printspooler
+
+# Opsional, sesuaikan selera
+#com.xiaomi.mitv.updateservice          # update firmware Xiaomi. Aktifkan lagi kalau mau cek update
+#com.google.android.tv                  # Live Channels. Stick tidak punya tuner/HDMI-in, aman dimatikan
+#com.mitv.dream                         # screensaver Xiaomi
+#com.xiaomo.tv.milegal                  # halaman legal/EULA Xiaomi (sic, "xiaomo"), cek dulu fungsinya
+#com.google.android.marvin.talkback     # TalkBack. Jangan dimatikan kalau butuh aksesibilitas
+
+# JANGAN SENTUH DULU, perlu dicek:
+# com.google.android.tungsten.setupwraith (setup wizard). HANYA setelah launcher pengganti terpasang
+# dan sudah jadi Home, karena bisa membuat Home jatuh ke RecoveryActivity. Aktifkan lagi sebelum factory reset.
+#com.google.android.tungsten.setupwraith
+#
+# com.mitv.download.service: belum jelas fungsinya, jangan dimatikan dulu.
